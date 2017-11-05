@@ -8,7 +8,7 @@
    <div class="row h-100">
      <div class="col-lg-7 my-auto">
        <div class="header-content mx-auto">
-         <h2 class="mb-5">Welcome back {{ Auth::user()->name }}!</h2>
+         <h2 class="mb-5">Welcome back {{ strtoupper(Auth::user()->name) }}!</h2>
          <div class="btn btn-outline btn-xl js-scroll-trigger" onclick="locateBike()">Locate My Bike</div>
          <p></p>
 
@@ -27,11 +27,11 @@
               </tr>
               <tr>
                <td>Last Seen </td>
-               <td> Lat: {{ $bike->currentLat }}, Long {{ $bike->currentLong }}  </td>
+               <td> Lat: {{ $bikeLocation->lat }}, Long {{ $bikeLocation->long }}  </td>
               </tr>
               <tr>
                <td>Time Last Seen </td>
-               <td> {{ $bike->updated_at }} </td>
+               <td> {{ $bikeLocation->updated_at }} </td>
               </tr>
               <tr>
                <td>Bike Colour </td>
@@ -75,7 +75,7 @@
 
 <script>
       function initMap() {
-        var uluru = {lat: 52.6680, lng: -8.6305};
+        var uluru = {lat: 52.6680, lng: -8.6305}; // Ireland Coords
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 6,
           center: uluru
@@ -86,7 +86,7 @@
        // });
       }
       function locateBike() {
-        var uluru = {lat: {{ $bike->currentLat }}, lng: {{ $bike->currentLong }}};
+        var uluru = {lat: {{ $bikeLocation->lat }}, lng: {{ $bikeLocation->long }} };
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 12,
           center: uluru

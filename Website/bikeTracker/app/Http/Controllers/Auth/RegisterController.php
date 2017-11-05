@@ -63,11 +63,17 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        \DB::table('bikes')->insert(array(
+          'bikeTrackerID' => $data['bikeTrackerID'],
+          'bikeName' => $data['name'],
+         ));
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'bikeTrackerID' => $data['bikeTrackerID'],
         ]);
+        // $bikeName = $data['name'] . "'s Bike";
     }
 }

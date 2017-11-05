@@ -33,7 +33,7 @@
      <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
-      <a class="navbar-brand js-scroll-trigger" href="#page-top">Bike Tracker</a>
+      <a class="navbar-brand js-scroll-trigger" href="{{ route('welcome') }}">Bike Tracker</a>
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         Menu
         <i class="fa fa-bars"></i>
@@ -50,6 +50,7 @@
              <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ route('register') }}">Register</a></li>
          @else
              <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ route('home') }}">Track My Bike</a></li>
+             <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ route('timeline') }}">My Timeline</a></li>
              <li class="nav-item">
                <a class="nav-link js-scroll-trigger" href="{{ route('logout') }}"
                    onclick="event.preventDefault();
@@ -92,10 +93,12 @@
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCU6lDsBQiREsdR6C5CFgj_8-c0MeCZcPU&callback=initMap">  </script>
     <!-- Bootstrap core JavaScript -->
     <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/moment.js') }}"></script>
     <script src="{{ asset('js/popper.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/jquery.easing.min.js') }}"></script>
     <script src="{{ asset('js/new-age.min.js') }}"></script>
+    <script src="{{ asset('js/datetimepicker.js') }}"></script>
 
 </body>
 </html>

@@ -7,55 +7,32 @@
    <div class="row h-100">
      <div class="col-lg-7 my-auto">
        <div class="header-content mx-auto">
-         <h1 class="mb-5">Welcome back {{ strtoupper(Auth::user()->name) }}!</h1>
+         <h1 class="mb-5">Welcome back </h1>
          <div class="btn btn-outline btn-xl js-scroll-trigger">Locate My Bike</div>
          <p></p>
          <div class="bikeInfo">
 
-	{{ Form::open(array('url' => 'updateBike' , 'class' => 'form-horizontal', 'method' => 'put')) }}
+	{{ Form::open(array('url' => 'updateBikeLocation' , 'class' => 'form-horizontal', 'method' => 'put')) }}
 
 	<div class="Form-group">
 
 		<div class="col-sm-7">
-			<label class="control-label" for="textinput">Bike Name</label>
-			{{ Form::text('bikeName', $bike->bikeName, array('class' => 'form-control' )) }}
+			<label class="control-label" for="textinput">device</label>
+			{{ Form::text('device', 'test' , array('class' => 'form-control' )) }}
 			<span class=error>{{ $errors->first('bikeName', ':message') }}</span>
 
 		</div>
 
 
 		<div class="col-sm-7">
-			<label class="control-label" for="textinput">Bike Colour</label>
-			{{ Form::text('bikeColour', $bike->bikeColour, array('class' => 'form-control' )) }}
+			<label class="control-label" for="textinput">data</label>
+			{{ Form::text('data', 'test', array('class' => 'form-control' )) }}
 			<span class=error>{{ $errors->first('bikeColour', ':message') }}</span>
 
 		</div>
 
 	</div>
 
-
-	<!-- Text input-->
-	<div class="Form-group">
-
-		<div class="col-sm-7">
-			<label class="control-label" for="textinput">Bike Type</label>
-			{{ Form::text('bikeType', $bike->bikeType, array('class' => 'form-control' )) }}
-			<span class=error>{{ $errors->first('bikeType', ':message') }}</span>
-
-		</div>
-
-
-		<div class="col-sm-7">
-			<label class="control-label" for="textinput">Bike Make</label>
-			{{ Form::text('bikeMake', $bike->bikeMake, array('class' => 'form-control' )) }}
-			<span class=error>{{ $errors->first('bikeMake', ':message') }}</span>
-
-		</div>
-
-	</div>
-
-
-	{{ Form::hidden('id', $bike->bikeName) }}
 
 
 	<div class="Form-group">

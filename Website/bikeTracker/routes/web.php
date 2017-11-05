@@ -23,14 +23,29 @@ Route::group(['prefix' => 'admin'], function () {
 
 Auth::routes();
 
-Route::get('/home', array(
-    'uses' => 'Bike@view'
-))->name('home');
+// Must be logged in to view these routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', array(
+       'uses' => 'Bike@view'
+   ))->name('home');
 
-Route::put('/updateBike', array(
- 'uses' => 'Bike@update'
+    Route::get('/timeline', array(
+      'uses' => 'Bike@timeline'
+  ))->name('timeline');
+
+    Route::put('/updateBike', array(
+    'uses' => 'Bike@update'
+   ));
+
+    Route::get('/editBike', array(
+       'uses' => 'Bike@edit'
+   ))->name('editBike');
+});
+
+Route::put('/updateBikeLocation', array(
+'uses' => 'Tracker@updateLocation'
 ));
 
-Route::get('/editBike', array(
-    'uses' => 'Bike@edit'
-))->name('editBike');
+Route::get('/testUpdateBL', function () {
+    return view('testUpdateBL');
+})->name('testUpdateBL');
