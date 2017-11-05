@@ -10,7 +10,8 @@ The sensor modules are fully modular and rely on the very powerful Sigfox networ
 
 This is still a work in progress
 
-[[https://github.com/R-Kearney/IoT-Bike/blob/master/Website/Eg_Timeline.jpg]]
+![Web App Example Timeline](https://github.com/R-Kearney/IoT-Bike/blob/master/Website/Eg_Timeline.jpg)
+
 
 ## Web App
 To extend the battery life of the sensors I will be utilising the cloud to process all sensor data and provide an easy to use experience to the end user. The backend is built using Laravel (laravel.com) to allow for quick prototyping and a consumer ready system. 
