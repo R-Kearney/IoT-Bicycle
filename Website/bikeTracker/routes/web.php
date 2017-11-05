@@ -23,10 +23,14 @@ Route::group(['prefix' => 'admin'], function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', array(
+    'uses' => 'Bike@view'
+))->name('home');
 
-Route::put('/updateBike', array('request' => 'updateBikeController@update'))->name('updateBike');
+Route::put('/updateBike', array(
+ 'uses' => 'Bike@update'
+));
 
-Route::get('/editBike', function () {
-    return view('editBike');
-})->name('editBike');
+Route::get('/editBike', array(
+    'uses' => 'Bike@edit'
+))->name('editBike');
