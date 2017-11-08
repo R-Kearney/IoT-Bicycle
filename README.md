@@ -40,3 +40,4 @@ Each sensor will have its own Sigfox communication allowing them to be installed
 ### Features still to be Implemented
 1. Peddle Pressure sensor
 2. Anti-Theft - user notification and local alarm to deter theft
+3. Google Assistant and IFTTT Intergration

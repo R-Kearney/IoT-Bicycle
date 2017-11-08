@@ -34,6 +34,10 @@
                <td> {{ $bikeLocation->updated_at }} </td>
               </tr>
               <tr>
+               <td>Total Distance Cycled </td>
+               <td> {{ $bikeLocation->distance }} km </td>
+              </tr>
+              <tr>
                <td>Bike Colour </td>
                <td> {{ $bike->bikeColour }} </td>
               </tr>
@@ -74,16 +78,22 @@
 </header>
 
 <script>
+@if ($bikeLocation->updated_at == " ")
+ //No Data Found
+ function initMap() {
+   var uluru = {lat: 52.6680, lng: -8.6305}; // Ireland Coords
+   var map = new google.maps.Map(document.getElementById('map'), {
+     zoom: 6,
+     center: uluru
+   });
+ }
+@else
       function initMap() {
         var uluru = {lat: 52.6680, lng: -8.6305}; // Ireland Coords
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 6,
           center: uluru
         });
-        //var marker = new google.maps.Marker({
-         // position: uluru,
-        //  map: map
-       // });
       }
       function locateBike() {
         var uluru = {lat: {{ $bikeLocation->lat }}, lng: {{ $bikeLocation->long }} };
@@ -96,6 +106,7 @@
          map: map
        });
       }
+ @endif
     </script>
 
 @endsection

@@ -18,6 +18,8 @@
              <h3>No Data Found</h3>
             @else
              Last reported location time was: {{ $bikeLocation->first()->updated_at }}
+             <p>Distance Cycled: {{ $bikeLocation->distance }} km</p>
+             <p>Avgerage Speed: {{ $bikeLocation->avgSpeed }} km/h</p>
             @endif
            </p>
            <p><i class="fa fa-stop"  style="color: #73f76a;" aria-hidden="true"></i> Start</p>
@@ -63,16 +65,12 @@
      zoom: 6,
      center: uluru
    });
-   //var marker = new google.maps.Marker({
-    // position: uluru,
-   //  map: map
-  // });
  }
 @else
       function initMap() {
         var uluru = {lat: {{ $bikeLocation->first()->lat }} , lng: {{$bikeLocation->first()->long }} }; // Ireland Coords
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 9,
+          zoom: 10,
           center: uluru
         });
 
@@ -113,9 +111,9 @@
        // Repeat the symbol at intervals of 20 pixels to create the dashed effect.
        var line = new google.maps.Polyline({
         path: [
-        @foreach ($bikeLocation as $bikeLocation)
+        @foreach ($bikeLocation as $bikeLocationTemp)
         {
-         lat: {{ $bikeLocation->lat }} , lng: {{$bikeLocation->long }}
+         lat: {{ $bikeLocationTemp->lat }} , lng: {{$bikeLocationTemp->long }}
         },
          @endforeach
         ],
