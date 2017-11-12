@@ -1,0 +1,13 @@
+Website/bikeTracker/vendor/
+Website/bikeTracker/node_modules/
+Website/bikeTracker/npm-debug.log
+
+# Laravel 5 & Lumen specific
+Website/bikeTracker/public/storage
+Website/bikeTracker/public/hot
+Website/bikeTracker/storage/*.key
+Website/bikeTracker/.env.*.php
+Website/bikeTracker/.env.php
+Website/bikeTracker/.env
+Website/bikeTracker/Homestead.yaml
+Website/bikeTracker/Homestead.json

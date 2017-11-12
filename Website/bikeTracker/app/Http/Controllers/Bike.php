@@ -4,6 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use stdClass;
+use Auth;
+use DB;
+use View;
+use Input;
+use Geotools;
+use Redirect;
+
+// use Client;
 
 class Bike extends Controller
 {
@@ -15,23 +24,23 @@ class Bike extends Controller
     public function view()
     {
         //find customer
-        $bikeOwner = \Auth::user();
-        $userBikeTrackerID = \Auth::user()->bikeTrackerID;
-        $bike = \DB::table('bikes')->where('bikeTrackerID', '=', $userBikeTrackerID)->first();
-        $bikeLocation = \DB::table('gpslocations')->where('bikeTrackerID', '=', $userBikeTrackerID)->orderBy('updated_at', 'desc')->first();
+        $bikeOwner = Auth::user();
+        $userBikeTrackerID = Auth::user()->bikeTrackerID;
+        $bike = DB::table('bikes')->where('bikeTrackerID', '=', $userBikeTrackerID)->first();
+        $bikeLocation = DB::table('gpslocations')->where('bikeTrackerID', '=', $userBikeTrackerID)->orderBy('updated_at', 'desc')->first();
         $distanceCycled = 0.0; // Distance in km for selected date
         if ($bikeLocation == null) { // GPS not synced for this bike
-            $bikeLocation = new \stdClass();
+            $bikeLocation = new stdClass();
             $bikeLocation->lat = " ";
             $bikeLocation->long = " ";
             $bikeLocation->updated_at = " ";
             $bikeLocation->distance = $distanceCycled;
         } else { // Calculate total distance cycled
-            $allLocationData = \DB::table('gpslocations')->where('bikeTrackerID', '=', $userBikeTrackerID)->orderBy('updated_at', 'desc')->get();
+            $allLocationData = DB::table('gpslocations')->where('bikeTrackerID', '=', $userBikeTrackerID)->orderBy('updated_at', 'desc')->get();
             $bikeLocation->distance = $this->calculateDistCycled($allLocationData);
         }
         //show the edit form
-        return \View::make('home', ['bike' => $bike], ['bikeLocation' => $bikeLocation]);
+        return View::make('home', ['bike' => $bike], ['bikeLocation' => $bikeLocation]);
     }
 
     /**
@@ -39,35 +48,36 @@ class Bike extends Controller
    */
     public function timeline()
     {
-        if (\Input::get('date')) {
-            $showRouteForDate = \Input::get('date');
+        if (Input::get('date')) {
+            $showRouteForDate = Input::get('date');
         } else {
             $showRouteForDate = date('Y-m-d');
         }
 
         //find customer
-        $bikeOwner = \Auth::user();
-        $userBikeTrackerID = \Auth::user()->bikeTrackerID;
-        $bike = \DB::table('bikes')->where('bikeTrackerID', '=', $userBikeTrackerID)->first();
-        $bikeLocation = \DB::table('gpslocations')->where('bikeTrackerID', '=', $userBikeTrackerID)
+        $bikeOwner = Auth::user();
+        $userBikeTrackerID = Auth::user()->bikeTrackerID;
+        $bike = DB::table('bikes')->where('bikeTrackerID', '=', $userBikeTrackerID)->first();
+        $bikeLocation = DB::table('gpslocations')->where('bikeTrackerID', '=', $userBikeTrackerID)
          ->whereDate('updated_at', '=', $showRouteForDate)->orderBy('updated_at', 'desc')->get();
-        $distanceCycled = 0.0; // Distance in km for selected date
+        $bikeLocation->distance = 0; // Distance in km for selected date
+        $bikeLocation->avgSpeed = 0; // Avg speed in km for selected date
         $bikeLocation->isData = true;
 
         if ($bikeLocation->first() == null) { // GPS not synced for this bike
-            $bikeLocation = new \stdClass();
+            $bikeLocation = new stdClass();
             $bikeLocation->lat = " ";
             $bikeLocation->long = " ";
             $bikeLocation->updated_at = " ";
             $bikeLocation->isData = false;
-            $bikeLocation->distance = $distanceCycled;
-        } else { // Calculate distance cycled for selected day
+            $bikeLocation->distance = 0;
+        } elseif (sizeof($bikeLocation) > 1) { // Some Functions to make the data nicer
             $bikeLocation->distance = $this->calculateDistCycled($bikeLocation);
             $bikeLocation->avgSpeed = $this->calculateAvg($bikeLocation);
             $bikeLocation = $this->snapToRoad($bikeLocation);
         }
         //show the edit form
-        return \View::make('timeline', ['bike' => $bike], ['bikeLocation' => $bikeLocation]);
+        return View::make('timeline', ['bike' => $bike], ['bikeLocation' => $bikeLocation]);
     }
 
 
@@ -80,11 +90,11 @@ class Bike extends Controller
         $distanceCycled = 0.0; // Distance in km for selected date
         $i = 0;
         foreach ($bikeLocation as $bikeLocationTemp) {
-            $location = \Geotools::coordinate([$bikeLocationTemp->lat, $bikeLocationTemp->long]);
+            $location = Geotools::coordinate([$bikeLocationTemp->lat, $bikeLocationTemp->long]);
             if ($i != 0) {
-                $distanceCycled = $distanceCycled + \Geotools::distance()->setFrom($location)->setTo($lastLocation)->in('km')->haversine();
+                $distanceCycled = $distanceCycled + Geotools::distance()->setFrom($location)->setTo($lastLocation)->in('km')->haversine();
             }
-            $lastLocation = \Geotools::coordinate([$bikeLocationTemp->lat, $bikeLocationTemp->long]);
+            $lastLocation = Geotools::coordinate([$bikeLocationTemp->lat, $bikeLocationTemp->long]);
             $i = 1;
         }
         $distanceCycled = number_format($distanceCycled, 2);
@@ -103,13 +113,13 @@ class Bike extends Controller
         $timeDiff = 0;
         $i = 0;
         foreach ($bikeLocation as $bikeLocationTemp) {
-            $location = \Geotools::coordinate([$bikeLocationTemp->lat, $bikeLocationTemp->long]);
+            $location = Geotools::coordinate([$bikeLocationTemp->lat, $bikeLocationTemp->long]);
             $time = strtotime($bikeLocationTemp->updated_at);
             if ($i != 0) {
-                $distanceCycled = $distanceCycled + \Geotools::distance()->setFrom($location)->setTo($lastLocation)->in('km')->haversine();
+                $distanceCycled = $distanceCycled + Geotools::distance()->setFrom($location)->setTo($lastLocation)->in('km')->haversine();
                 $timeDiff = $timeDiff + (($lastTime - $time) / 60); // Time difference in minutes
             }
-            $lastLocation = \Geotools::coordinate([$bikeLocationTemp->lat, $bikeLocationTemp->long]);
+            $lastLocation = Geotools::coordinate([$bikeLocationTemp->lat, $bikeLocationTemp->long]);
             $lastTime = strtotime($bikeLocationTemp->updated_at);
             $i = 1;
         }
@@ -149,7 +159,7 @@ class Bike extends Controller
         $bikeTrackerID = $bikeLocation[0]->bikeTrackerID;
         $i = 0;
         foreach ($parametersFull as $parameters) { // For each 100 block of Coords send off and put into new objects
-            $newPoints = $client->request('GET', 'https://roads.googleapis.com/v1/snapToRoads?path=' . $parameters . '&interpolate=true&key=AIzaSyCU6lDsBQiREsdR6C5CFgj_8-c0MeCZcPU');
+            $newPoints = $client->request('GET', 'https://roads.googleapis.com/v1/snapToRoads?path=' . $parameters . '&interpolate=true&key=' . env("GOOGLE_MAPS_KEY"));
             $newPoints = json_decode($newPoints->getBody())->snappedPoints;
 
             foreach ($newPoints as $locations) { // put into $bikeLocation object
@@ -157,7 +167,7 @@ class Bike extends Controller
                     $bikeLocation[$i]->lat = $locations->location->latitude;
                     $bikeLocation[$i]->long = $locations->location->longitude;
                 } else { // More points than before so make new objects
-                    $bikeLocation[$i] = new \stdClass();
+                    $bikeLocation[$i] = new stdClass();
                     $bikeLocation[$i]->bikeTrackerID = $bikeTrackerID;
                     $bikeLocation[$i]->lat = $locations->location->latitude;
                     $bikeLocation[$i]->long = $locations->location->longitude;
@@ -178,12 +188,12 @@ class Bike extends Controller
     public function edit()
     {
         //find customer
-        $bikeOwner = \Auth::user();
-        $userBikeTrackerID = \Auth::user()->bikeTrackerID;
-        $bike = \DB::table('bikes')->where('bikeTrackerID', '=', $userBikeTrackerID)->first();
+        $bikeOwner = Auth::user();
+        $userBikeTrackerID = Auth::user()->bikeTrackerID;
+        $bike = DB::table('bikes')->where('bikeTrackerID', '=', $userBikeTrackerID)->first();
 
         //show the edit form
-        return \View::make('editBike')->with('bike', $bike);
+        return View::make('editBike')->with('bike', $bike);
     }
 
 
@@ -199,31 +209,31 @@ class Bike extends Controller
            'bikeMake' => 'string|max:100',
        ];
 
-        $validator = \Validator::make(\Input::all(), $rules);
+        $validator = Validator::make(Input::all(), $rules);
 
         if ($validator->fails()) {
-            return \Redirect::to('editBike')
+            return Redirect::to('editBike')
                 ->withErrors($validator)
                 ->withInput();
         } else {
             //$user = User::find($id);
 
-            $userBikeTrackerID = \Auth::user()->bikeTrackerID;
-            $bikeName = \Input::get('bikeName');
-            $bikeColour = \Input::get('bikeColour');
-            $bikeType = \Input::get('bikeType');
-            $bikeMake = \Input::get('bikeMake');
+            $userBikeTrackerID = Auth::user()->bikeTrackerID;
+            $bikeName = Input::get('bikeName');
+            $bikeColour = Input::get('bikeColour');
+            $bikeType = Input::get('bikeType');
+            $bikeMake = Input::get('bikeMake');
 
-            \DB::table('bikes')->where('bikeTrackerID', '=', $userBikeTrackerID)->update(array(
+            DB::table('bikes')->where('bikeTrackerID', '=', $userBikeTrackerID)->update(array(
              'bikeName' => $bikeName,
              'bikeColour' => $bikeColour,
              'bikeType' => $bikeType,
              'bikeMake' => $bikeMake,
             ));
 
-            \Session::flash('success', 'Your profile was updated.');
+            Session::flash('success', 'Your profile was updated.');
 
-            return \Redirect::to('home');
+            return Redirect::to('home');
         }
     }
 }

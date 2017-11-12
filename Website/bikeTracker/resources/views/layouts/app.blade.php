@@ -90,7 +90,7 @@
 
     <!-- Scripts -->
     <!-- <script src="{{ asset('js/app.js') }}"></script> -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCU6lDsBQiREsdR6C5CFgj_8-c0MeCZcPU&callback=initMap">  </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo(env("GOOGLE_MAPS_KEY")); ?>&callback=initMap">  </script>
     <!-- Bootstrap core JavaScript -->
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/moment.js') }}"></script>
