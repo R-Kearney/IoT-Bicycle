@@ -1,10 +1,10 @@
 # My Final Year Project - An IoT Bicycle
 
 The goal of this project is to demonstrate the use of smart modular sensors to improve the cycling experience.
-To ensure the success of this project I will be focusing on two sensors.
+To ensure the success of this project I will be focusing on two modules.
 
     - Bicycle Anti-Theft and Tracking
-    - Peddle Pressure Sensor
+    - Cycling dynamics with a smart pedal
 
 The sensor modules are fully modular and rely on the very powerful Sigfox network for low power communications to my backend. The sensors themselves are based on the Pycom SiPy boards (pycom.io) which gives you access to Wi-Fi, BLE and Sigfox on a single low power board. The boards are based on the ESP32 and are programmed in micro Python to allow for quick prototyping. 
 
@@ -14,30 +14,23 @@ This is still a work in progress
 
 
 ## Web App
-To extend the battery life of the sensors I will be utilising the cloud to process all sensor data and provide an easy to use experience to the end user. The backend is built using Laravel (laravel.com) to allow for quick prototyping and a consumer ready system. 
+To extend the battery life of the sensors I will be utilizing the cloud to process all sensor data and provide an easy to use experience to the end user. The backend is built using the Laravel PHP framework (laravel.com) to allow for quick prototyping and a consumer ready system. 
 
 
 ## Bicycle Anti-Theft and Tracking
 This sensor will use a Pycom PyTrack along with the SiPy to allow the bike to be tracked using GPS.
-When an accelerometer interrupt is triggered, the system will check if the registered smart phone is within Bluetooth Low Energy range. If it is, the devices will track the user’s position as he/she cycles. If the smart phone is not within range, an alarm will be activated to deter the theft of the bike. The Bikes GPS location will be recorded and user notified.
+When an accelerometer interrupt is triggered, the module will wake up from deep sleep and acquire the bikes GPS location. The location is sent to the web app where the user can track their bike if it is stolen. 
 
-The web app will allow the end user to view past trips on a map and see trip information such as distance and average speed.
+The Web App will allow the end user to view past trips on a map and see trip information such as distance and average speed.
 
-## Peddle Pressure Sensor
-The peddle pressure sensor will use 4 capacitive force sensors to record the users peddling power. This data can be shown on a HUD or smart phone to tell the user if they are in the correct gear. 
+## Cycling Dynamics
+A smart pedal will use 4 capacitive force sensors to record the users peddling power. The capacitive force sensors are made by singletact and communicate to a second Pycom SiPy board over i2c. The board reads and maps the force before sending to the web app for processing. The web app displays the users cycling dynamics and peddling efficiency.
 
-Each sensor will have its own Sigfox communication allowing them to be installed in any order and removes the need for a base station.
+![Web App Example Cycling Dynamics](https://github.com/R-Kearney/IoT-Bike/blob/master/Website/Eg_Cycling_Dynamics.jpg)
+![Smart Pedal](https://github.com/R-Kearney/IoT-Bike/blob/master/Smart_Pedal.jpg)
 
-### Implemented Features
-1. Web app shows bike info and last location
-2. Web app shows a user’s timeline for selected date and displays on a map
-3. Bike Tracking - wakes on accelerometer interrupt and gets GPS location before sending to backend via Sigfox
-
-
-### In Progress
-1. Anti-Theft - Bluetooth LE check when users smart phone is near by
-
-### Features still to be Implemented
-1. Peddle Pressure sensor
-2. Anti-Theft - user notification and local alarm to deter theft
-3. Google Assistant and IFTTT Intergration
+### Possible future features
+1. Better power management by utilizing WiFi or cellular location instead of relying on high power consumption GPS.
+2. Tire pressure sensor
+3. Real time audible cues to improve cycling dynamics
+4. Google Assistant and IFTTT Integration
