@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
--- https://www.phpmyadmin.net/
+-- version 4.5.4.1deb2ubuntu2
+-- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Oct 20, 2017 at 02:19 PM
--- Server version: 10.1.26-MariaDB
--- PHP Version: 7.1.9
+-- Host: localhost
+-- Generation Time: Jan 31, 2018 at 12:33 PM
+-- Server version: 5.7.21-0ubuntu0.16.04.1
+-- PHP Version: 7.1.12-3+ubuntu16.04.1+deb.sury.org+1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -50,7 +48,7 @@ CREATE TABLE `bikes` (
 INSERT INTO `bikes` (`id`, `bikeTrackerID`, `bikeName`, `bikeColour`, `bikeType`, `bikeMake`, `created_at`, `updated_at`, `lastLat`, `lastLong`, `currentLat`, `currentLong`) VALUES
 (1, '654321', 'Kelly Nell', 'Gold flakes', 'FAST', 'Asuss', '2017-09-26 08:30:42', '2017-10-04 10:26:00', 52.9794, -8.9773, 52.6794, -8.5773),
 (3, '4D2BB9', 'jim', NULL, NULL, NULL, NULL, '2017-10-12 18:12:12', 52.6792, -8.57684, 53.3346, -8.57668),
-(4, '4D2BB97', 'jimy', NULL, NULL, NULL, '2017-10-12 18:35:35', '2017-10-12 18:35:35', NULL, NULL, NULL, NULL);
+(5, '4D2C81', 'Pat', NULL, NULL, NULL, '2018-01-10 09:41:32', NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -109,11 +107,11 @@ INSERT INTO `data_rows` (`id`, `data_type_id`, `field`, `type`, `display_name`, 
 (4, 1, 'title', 'text', 'Title', 1, 1, 1, 1, 1, 1, '', 4),
 (5, 1, 'excerpt', 'text_area', 'excerpt', 1, 0, 1, 1, 1, 1, '', 5),
 (6, 1, 'body', 'rich_text_box', 'Body', 1, 0, 1, 1, 1, 1, '', 6),
-(7, 1, 'image', 'image', 'Post Image', 0, 1, 1, 1, 1, 1, '{\"resize\":{\"width\":\"1000\",\"height\":\"null\"},\"quality\":\"70%\",\"upsize\":true,\"thumbnails\":[{\"name\":\"medium\",\"scale\":\"50%\"},{\"name\":\"small\",\"scale\":\"25%\"},{\"name\":\"cropped\",\"crop\":{\"width\":\"300\",\"height\":\"250\"}}]}', 7),
-(8, 1, 'slug', 'text', 'slug', 1, 0, 1, 1, 1, 1, '{\"slugify\":{\"origin\":\"title\",\"forceUpdate\":true}}', 8),
+(7, 1, 'image', 'image', 'Post Image', 0, 1, 1, 1, 1, 1, '{"resize":{"width":"1000","height":"null"},"quality":"70%","upsize":true,"thumbnails":[{"name":"medium","scale":"50%"},{"name":"small","scale":"25%"},{"name":"cropped","crop":{"width":"300","height":"250"}}]}', 7),
+(8, 1, 'slug', 'text', 'slug', 1, 0, 1, 1, 1, 1, '{"slugify":{"origin":"title","forceUpdate":true}}', 8),
 (9, 1, 'meta_description', 'text_area', 'meta_description', 1, 0, 1, 1, 1, 1, '', 9),
 (10, 1, 'meta_keywords', 'text_area', 'meta_keywords', 1, 0, 1, 1, 1, 1, '', 10),
-(11, 1, 'status', 'select_dropdown', 'status', 1, 1, 1, 1, 1, 1, '{\"default\":\"DRAFT\",\"options\":{\"PUBLISHED\":\"published\",\"DRAFT\":\"draft\",\"PENDING\":\"pending\"}}', 11),
+(11, 1, 'status', 'select_dropdown', 'status', 1, 1, 1, 1, 1, 1, '{"default":"DRAFT","options":{"PUBLISHED":"published","DRAFT":"draft","PENDING":"pending"}}', 11),
 (12, 1, 'created_at', 'timestamp', 'created_at', 0, 1, 1, 0, 0, 0, '', 12),
 (13, 1, 'updated_at', 'timestamp', 'updated_at', 0, 0, 0, 0, 0, 0, '', 13),
 (14, 2, 'id', 'number', 'id', 1, 0, 0, 0, 0, 0, '', 1),
@@ -121,10 +119,10 @@ INSERT INTO `data_rows` (`id`, `data_type_id`, `field`, `type`, `display_name`, 
 (16, 2, 'title', 'text', 'title', 1, 1, 1, 1, 1, 1, '', 3),
 (17, 2, 'excerpt', 'text_area', 'excerpt', 1, 0, 1, 1, 1, 1, '', 4),
 (18, 2, 'body', 'rich_text_box', 'body', 1, 0, 1, 1, 1, 1, '', 5),
-(19, 2, 'slug', 'text', 'slug', 1, 0, 1, 1, 1, 1, '{\"slugify\":{\"origin\":\"title\"}}', 6),
+(19, 2, 'slug', 'text', 'slug', 1, 0, 1, 1, 1, 1, '{"slugify":{"origin":"title"}}', 6),
 (20, 2, 'meta_description', 'text', 'meta_description', 1, 0, 1, 1, 1, 1, '', 7),
 (21, 2, 'meta_keywords', 'text', 'meta_keywords', 1, 0, 1, 1, 1, 1, '', 8),
-(22, 2, 'status', 'select_dropdown', 'status', 1, 1, 1, 1, 1, 1, '{\"default\":\"INACTIVE\",\"options\":{\"INACTIVE\":\"INACTIVE\",\"ACTIVE\":\"ACTIVE\"}}', 9),
+(22, 2, 'status', 'select_dropdown', 'status', 1, 1, 1, 1, 1, 1, '{"default":"INACTIVE","options":{"INACTIVE":"INACTIVE","ACTIVE":"ACTIVE"}}', 9),
 (23, 2, 'created_at', 'timestamp', 'created_at', 1, 1, 1, 0, 0, 0, '', 10),
 (24, 2, 'updated_at', 'timestamp', 'updated_at', 1, 0, 0, 0, 0, 0, '', 11),
 (25, 2, 'image', 'image', 'image', 0, 1, 1, 1, 1, 1, '', 12),
@@ -132,7 +130,7 @@ INSERT INTO `data_rows` (`id`, `data_type_id`, `field`, `type`, `display_name`, 
 (27, 3, 'name', 'text', 'name', 1, 1, 1, 1, 1, 1, '', 2),
 (28, 3, 'email', 'text', 'email', 1, 1, 1, 1, 1, 1, '', 3),
 (29, 3, 'password', 'password', 'password', 0, 0, 0, 1, 1, 0, '', 4),
-(30, 3, 'user_belongsto_role_relationship', 'relationship', 'Role', 0, 1, 1, 1, 1, 0, '{\"model\":\"TCG\\\\Voyager\\\\Models\\\\Role\",\"table\":\"roles\",\"type\":\"belongsTo\",\"column\":\"role_id\",\"key\":\"id\",\"label\":\"name\",\"pivot_table\":\"roles\",\"pivot\":\"0\"}', 10),
+(30, 3, 'user_belongsto_role_relationship', 'relationship', 'Role', 0, 1, 1, 1, 1, 0, '{"model":"TCG\\\\Voyager\\\\Models\\\\Role","table":"roles","type":"belongsTo","column":"role_id","key":"id","label":"name","pivot_table":"roles","pivot":"0"}', 10),
 (31, 3, 'remember_token', 'text', 'remember_token', 0, 0, 0, 0, 0, 0, '', 5),
 (32, 3, 'created_at', 'timestamp', 'created_at', 0, 1, 1, 0, 0, 0, '', 6),
 (33, 3, 'updated_at', 'timestamp', 'updated_at', 0, 0, 0, 0, 0, 0, '', 7),
@@ -142,10 +140,10 @@ INSERT INTO `data_rows` (`id`, `data_type_id`, `field`, `type`, `display_name`, 
 (37, 5, 'created_at', 'timestamp', 'created_at', 0, 0, 0, 0, 0, 0, '', 3),
 (38, 5, 'updated_at', 'timestamp', 'updated_at', 0, 0, 0, 0, 0, 0, '', 4),
 (39, 4, 'id', 'number', 'id', 1, 0, 0, 0, 0, 0, '', 1),
-(40, 4, 'parent_id', 'select_dropdown', 'parent_id', 0, 0, 1, 1, 1, 1, '{\"default\":\"\",\"null\":\"\",\"options\":{\"\":\"-- None --\"},\"relationship\":{\"key\":\"id\",\"label\":\"name\"}}', 2),
-(41, 4, 'order', 'text', 'order', 1, 1, 1, 1, 1, 1, '{\"default\":1}', 3),
+(40, 4, 'parent_id', 'select_dropdown', 'parent_id', 0, 0, 1, 1, 1, 1, '{"default":"","null":"","options":{"":"-- None --"},"relationship":{"key":"id","label":"name"}}', 2),
+(41, 4, 'order', 'text', 'order', 1, 1, 1, 1, 1, 1, '{"default":1}', 3),
 (42, 4, 'name', 'text', 'name', 1, 1, 1, 1, 1, 1, '', 4),
-(43, 4, 'slug', 'text', 'slug', 1, 1, 1, 1, 1, 1, '{\"slugify\":{\"origin\":\"name\"}}', 5),
+(43, 4, 'slug', 'text', 'slug', 1, 1, 1, 1, 1, 1, '{"slugify":{"origin":"name"}}', 5),
 (44, 4, 'created_at', 'timestamp', 'created_at', 0, 0, 1, 0, 0, 0, '', 6),
 (45, 4, 'updated_at', 'timestamp', 'updated_at', 0, 0, 0, 0, 0, 0, '', 7),
 (46, 6, 'id', 'number', 'id', 1, 0, 0, 0, 0, 0, '', 1),
@@ -165,7 +163,7 @@ INSERT INTO `data_rows` (`id`, `data_type_id`, `field`, `type`, `display_name`, 
 (60, 7, 'bikeMake', 'text', 'BikeMake', 0, 1, 1, 1, 1, 1, NULL, 7),
 (61, 7, 'created_at', 'timestamp', 'Created At', 0, 1, 1, 1, 0, 1, NULL, 8),
 (62, 7, 'updated_at', 'timestamp', 'Updated At', 0, 0, 0, 0, 0, 0, NULL, 9),
-(63, 7, 'bike_belongsto_user_relationship', 'relationship', 'users', 0, 1, 1, 1, 1, 1, '{\"model\":\"App\\\\bikeTrackerID\",\"table\":\"users\",\"type\":\"belongsTo\",\"column\":\"bikeTrackerID\",\"key\":\"id\",\"label\":\"name\",\"pivot_table\":\"bikes\",\"pivot\":\"0\"}', 10),
+(63, 7, 'bike_belongsto_user_relationship', 'relationship', 'users', 0, 1, 1, 1, 1, 1, '{"model":"App\\\\bikeTrackerID","table":"users","type":"belongsTo","column":"bikeTrackerID","key":"id","label":"name","pivot_table":"bikes","pivot":"0"}', 10),
 (64, 8, 'id', 'checkbox', 'Id', 1, 0, 0, 0, 0, 0, NULL, 1),
 (65, 8, 'bikeTrackerID', 'checkbox', 'BikeTrackerID', 1, 1, 1, 1, 1, 1, NULL, 2),
 (66, 8, 'lat', 'checkbox', 'Lat', 1, 1, 1, 1, 1, 1, NULL, 3),
@@ -240,7 +238,41 @@ INSERT INTO `gpslocations` (`id`, `bikeTrackerID`, `lat`, `long`, `updated_at`) 
 (10, '4D2BB9', 52.7213, -8.62607, '2017-10-18 10:00:51'),
 (11, '4D2BB9', 52.7113, -8.61607, '2017-10-18 10:00:51'),
 (12, '4D2BB9', 52.7, -8.6, '2017-10-18 10:00:51'),
-(13, '4D2BB9', 52.6555, -8.55555, '2017-10-18 10:00:51');
+(13, '4D2BB9', 52.6555, -8.55555, '2017-10-18 10:00:51'),
+(14, '4D2BB9', 52.6792, -8.57684, '2018-01-07 18:22:55'),
+(15, '4D2BB9', 52.6792, -8.57684, '2018-01-10 11:38:07'),
+(16, '4D2BB9', 52.6792, -8.57684, '2018-01-10 11:38:17'),
+(17, '4D2BB9', 52.6792, -8.57684, '2018-01-12 13:03:43'),
+(18, '4D2BB9', 52.6792, -8.57684, '2018-01-12 13:16:10'),
+(19, '4D2C81', 52.6785, -8.57606, '2018-01-12 13:25:28'),
+(20, '4D2C81', 52.6719, -8.56503, '2018-01-12 13:28:19'),
+(21, '4D2C81', 52.6673, -8.55715, '2018-01-12 13:30:35'),
+(22, '4D2C81', 52.6671, -8.55586, '2018-01-12 13:33:35'),
+(23, '4D2C81', 52.6681, -8.55699, '2018-01-12 13:34:04'),
+(24, '4D2C81', 52.67, -8.55563, '2018-01-12 13:35:13'),
+(25, '4D2C81', 52.6705, -8.56199, '2018-01-12 13:36:25'),
+(26, '4D2C81', 52.6706, -8.56462, '2018-01-12 13:36:55'),
+(27, '4D2C81', 52.6793, -8.57693, '2018-01-24 10:30:37'),
+(28, '4D2C81', 52.679, -8.57662, '2018-01-24 10:43:22'),
+(29, '4D2C81', 52.6746, -8.57342, '2018-01-24 11:34:32'),
+(30, '4D2C81', 52.6795, -8.57781, '2018-01-24 13:09:23'),
+(31, '4D2C81', 52.6794, -8.57664, '2018-01-24 15:32:45'),
+(32, '4D2C81', 52.6795, -8.57804, '2018-01-24 15:43:39'),
+(33, '4D2C81', 52.6791, -8.57555, '2018-01-24 16:02:04'),
+(34, '4D2C81', 52.6792, -8.57732, '2018-01-24 16:10:01'),
+(35, '4D2C81', 52.6792, -8.57749, '2018-01-24 16:10:55'),
+(36, '4D2C81', 52.6792, -8.57706, '2018-01-24 16:12:56'),
+(37, '4D2C81', 52.6792, -8.57704, '2018-01-24 16:13:20'),
+(38, '4D2C81', 52.6791, -8.57662, '2018-01-24 16:13:46'),
+(39, '4D2C81', 52.678, -8.57589, '2018-01-24 16:15:26'),
+(40, '4D2C81', 52.6737, -8.573, '2018-01-24 16:18:12'),
+(41, '4D2C81', 52.6725, -8.5684, '2018-01-24 16:20:15'),
+(42, '4D2C81', 52.6731, -8.56641, '2018-01-24 16:21:24'),
+(43, '4D2C81', 52.6731, -8.56508, '2018-01-24 16:21:47'),
+(44, '4D2C81', 52.6732, -8.56531, '2018-01-24 16:22:16'),
+(45, '4D2C81', 52.6729, -8.56464, '2018-01-24 16:22:51'),
+(46, '4D2C81', 52.6722, -8.56389, '2018-01-24 16:23:16'),
+(47, '4D2C81', 52.675, -8.57321, '2018-01-30 10:49:00');
 
 -- --------------------------------------------------------
 
@@ -343,7 +375,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (21, '2017_04_21_000000_add_order_to_data_rows_table', 1),
 (22, '2017_07_05_210000_add_policyname_to_data_types_table', 1),
 (23, '2017_08_05_000000_add_group_to_settings_table', 1),
-(24, '2017_09_27_145212_add_bikeTrackerID_field_to_users_table', 2);
+(24, '2017_09_27_145212_add_bikeTrackerID_field_to_users_table', 2),
+(25, '2018_01_07_182923_pedaldata', 3),
+(26, '2018_01_20_113803_update-users-table-to-work-with-pedals', 4);
 
 -- --------------------------------------------------------
 
@@ -384,6 +418,44 @@ CREATE TABLE `password_resets` (
   `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pedaldata`
+--
+
+CREATE TABLE `pedaldata` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `bikePedalID` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `sensorLocation` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `data` double(8,2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `pedaldata`
+--
+
+INSERT INTO `pedaldata` (`id`, `bikePedalID`, `sensorLocation`, `data`, `created_at`, `updated_at`) VALUES
+(1, '4D2BB9', 'tLS', 7.20, '2018-01-25 16:50:54', '2018-01-25 16:50:54'),
+(2, '4D2BB9', 'tLS', 5.71, '2018-01-25 16:52:07', '2018-01-25 16:52:07'),
+(3, '4D2BB9', 'tRS', 7.20, '2018-01-25 16:50:54', '2018-01-25 16:50:54'),
+(4, '4D2BB9', 'tRS', 5.71, '2018-01-25 16:52:07', '2018-01-25 16:52:07'),
+(5, '4D2BB9', 'bRS', 7.20, '2018-01-25 16:50:54', '2018-01-25 16:50:54'),
+(6, '4D2BB9', 'bRS', 15.20, '2018-01-25 16:50:54', '2018-01-25 16:50:54'),
+(7, '4D2BB9', 'tLS', 0.71, '2018-01-25 16:52:07', '2018-01-25 16:52:07'),
+(8, '4D2BB9', 'tRS', 4.34, '2018-01-29 22:04:03', '2018-01-29 22:04:03'),
+(9, '4D2BB9', 'tLS', 2.70, '2018-01-29 22:04:54', '2018-01-29 22:04:54'),
+(10, '4D2BB9', 'tRS', 6.26, '2018-01-29 22:05:09', '2018-01-29 22:05:09'),
+(11, '4D2BB9', 'tRS', 4.27, '2018-01-29 22:05:32', '2018-01-29 22:05:32'),
+(12, '4D2BB9', 'bRS', 2.23, '2018-01-29 22:06:26', '2018-01-29 22:06:26'),
+(13, '4D2BB9', 'bLS', 2.04, '2018-01-29 22:06:45', '2018-01-29 22:06:45'),
+(14, '4D2BB9', 'bLS', 4.77, '2018-01-29 22:07:30', '2018-01-29 22:07:30'),
+(15, '4D2BB9', 'tLS', 6.18, '2018-01-29 22:07:43', '2018-01-29 22:07:43'),
+(16, '4D2BB9', 'tRS', 5.48, '2018-01-29 22:07:59', '2018-01-29 22:07:59'),
+(17, '4D2BB9', 'bRS', 3.37, '2018-01-29 22:08:11', '2018-01-29 22:08:11');
 
 -- --------------------------------------------------------
 
@@ -685,17 +757,18 @@ CREATE TABLE `users` (
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `bikeTrackerID` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL
+  `bikeTrackerID` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `bikePedalID` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bikePedalID_2` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
--- Passwords for below users are "password"
 --
 
-INSERT INTO `users` (`id`, `role_id`, `name`, `email`, `avatar`, `password`, `remember_token`, `created_at`, `updated_at`, `bikeTrackerID`) VALUES
-(1, 1, 'Admin', 'admin@admin.com', 'users/default.png', '$2y$10$pEM2NP3ZLJKWlNugr.6Bk.Jt6cX8whC2o7TOcjjvUSZLjiuQhblBq', 'n0C1GhwzTzqk8nArg1nWkj632WAyDvTLJ7ZsBtpVgVEkUkD7aDXf5mHIuTyS', '2017-09-26 16:07:02', '2017-09-26 16:07:02', '654321'),
-(8, 2, 'jim', 'jim@admin.com', 'users/default.png', '$2y$10$qiQAB4BOllM.wgy/KiOYTuDtnWBxujxEVWhLItw4x17jMjc1LnYWm', 'SiKMufuO81wkDvVOJVJUdKEf72njgFnKzki7WkKguTi0ROQ5q3hT9uWEFpow', '2017-10-12 17:14:08', '2017-10-12 17:14:08', '4D2BB9'),
+INSERT INTO `users` (`id`, `role_id`, `name`, `email`, `avatar`, `password`, `remember_token`, `created_at`, `updated_at`, `bikeTrackerID`, `bikePedalID`, `bikePedalID_2`) VALUES
+(1, 1, 'Admin', 'admin@admin.com', 'users/default.png', '$2y$10$pEM2NP3ZLJKWlNugr.6Bk.Jt6cX8whC2o7TOcjjvUSZLjiuQhblBq', 'n0C1GhwzTzqk8nArg1nWkj632WAyDvTLJ7ZsBtpVgVEkUkD7aDXf5mHIuTyS', '2017-09-26 16:07:02', '2017-09-26 16:07:02', '654321', '', ''),
+(10, 2, 'Pat', 'pat@admin.com', 'users/default.png', '$2y$10$BjO5riUjgQl.H.2csWBXxeh7WsLDTJ7Z5XF.b8L/x.TEhhFMSxGSy', NULL, '2018-01-10 09:41:32', '2018-01-10 09:41:32', '4D2C81', '4D2BB9', NULL);
 
 --
 -- Indexes for dumped tables
@@ -771,6 +844,12 @@ ALTER TABLE `password_resets`
   ADD KEY `password_resets_email_index` (`email`);
 
 --
+-- Indexes for table `pedaldata`
+--
+ALTER TABLE `pedaldata`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `permissions`
 --
 ALTER TABLE `permissions`
@@ -835,98 +914,87 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `bikes`
 --
 ALTER TABLE `bikes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT for table `data_rows`
 --
 ALTER TABLE `data_rows`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
-
 --
 -- AUTO_INCREMENT for table `data_types`
 --
 ALTER TABLE `data_types`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
 --
 -- AUTO_INCREMENT for table `gpslocations`
 --
 ALTER TABLE `gpslocations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 --
 -- AUTO_INCREMENT for table `menus`
 --
 ALTER TABLE `menus`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `menu_items`
 --
 ALTER TABLE `menu_items`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
-
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 --
 -- AUTO_INCREMENT for table `pages`
 --
 ALTER TABLE `pages`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
+--
+-- AUTO_INCREMENT for table `pedaldata`
+--
+ALTER TABLE `pedaldata`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
-
 --
 -- AUTO_INCREMENT for table `permission_groups`
 --
 ALTER TABLE `permission_groups`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
 --
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT for table `settings`
 --
 ALTER TABLE `settings`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
 --
 -- AUTO_INCREMENT for table `translations`
 --
 ALTER TABLE `translations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
-
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- Constraints for dumped tables
 --
@@ -955,7 +1023,6 @@ ALTER TABLE `menu_items`
 ALTER TABLE `permission_role`
   ADD CONSTRAINT `permission_role_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `permission_role_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

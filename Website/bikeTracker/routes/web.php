@@ -16,7 +16,6 @@ Route::get('/', function () {
 })->name('welcome');
 
 
-
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 });
@@ -33,6 +32,10 @@ Route::middleware(['auth'])->group(function () {
       'uses' => 'Bike@timeline'
   ))->name('timeline');
 
+    Route::get('/dynamics', array(
+    'uses' => 'Bike@dynamics'
+))->name('dynamics');
+
     Route::put('/updateBike', array(
     'uses' => 'Bike@update'
    ));
@@ -42,8 +45,14 @@ Route::middleware(['auth'])->group(function () {
    ))->name('editBike');
 });
 
+// Note Laravels CSRF needs to be disabled for this page
 Route::put('/updateBikeLocation', array(
-'uses' => 'Tracker@updateLocation'
+'uses' => 'DataUpload@updateLocation'
+));
+
+// Note Laravels CSRF needs to be disabled for this page
+Route::put('/updateBikePedalData', array(
+'uses' => 'DataUpload@updatePedal'
 ));
 
 Route::get('/testUpdateBL', function () {

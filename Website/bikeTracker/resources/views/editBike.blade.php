@@ -31,6 +31,21 @@
 
 		</div>
 
+    <div class="col-sm-7">
+			<label class="control-label" for="textinput">Bike Pedal ID</label>
+			{{ Form::text('bikePedalID', $user->bikePedalID, array('class' => 'form-control' )) }}
+			<span class=error>{{ $errors->first('bikePedalID', ':message') }}</span>
+
+		</div>
+
+
+    <div class="col-sm-7">
+			<label class="control-label" for="textinput">Second Bike Pedal ID</label>
+			{{ Form::text('bikePedalID_2', $user->bikePedalID_2, array('class' => 'form-control' )) }}
+			<span class=error>{{ $errors->first('bikePedalID_2', ':message') }}</span>
+
+		</div>
+
 	</div>
 
 

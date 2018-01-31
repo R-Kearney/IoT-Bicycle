@@ -17,7 +17,7 @@
             @if ($bikeLocation->isData == False)
              <h3>No Data Found</h3>
             @else
-             Last reported location time was: {{ $bikeLocation->first()->updated_at }}
+             Last reported location was at : {{ $bikeLocation->first()->updated_at }}
              <p>Distance Cycled: {{ $bikeLocation->distance }} km</p>
              <p>Avgerage Speed: {{ $bikeLocation->avgSpeed }} km/h</p>
             @endif
@@ -70,7 +70,7 @@
       function initMap() {
         var uluru = {lat: {{ $bikeLocation->first()->lat }} , lng: {{$bikeLocation->first()->long }} }; // Ireland Coords
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 10,
+          zoom: 12,
           center: uluru
         });
 

@@ -51,6 +51,7 @@
          @else
              <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ route('home') }}">Track My Bike</a></li>
              <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ route('timeline') }}">My Timeline</a></li>
+			 <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ route('dynamics') }}">Cycling Dynamics</a></li>
              <li class="nav-item">
                <a class="nav-link js-scroll-trigger" href="{{ route('logout') }}"
                    onclick="event.preventDefault();
@@ -99,6 +100,7 @@
     <script src="{{ asset('js/jquery.easing.min.js') }}"></script>
     <script src="{{ asset('js/new-age.min.js') }}"></script>
     <script src="{{ asset('js/datetimepicker.js') }}"></script>
+    <script src="{{ asset('js/Chart.js') }}"></script>
 
 </body>
 </html>

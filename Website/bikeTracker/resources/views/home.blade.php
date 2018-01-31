@@ -8,6 +8,7 @@
    <div class="row h-100">
      <div class="col-lg-7 my-auto">
        <div class="header-content mx-auto">
+         <p></p>
          <h2 class="mb-5">Welcome back {{ strtoupper(Auth::user()->name) }}!</h2>
          <div class="btn btn-outline btn-xl js-scroll-trigger" onclick="locateBike()">Locate My Bike</div>
          <p></p>
@@ -48,6 +49,14 @@
               <tr>
                <td>Bike Type </td>
                <td> {{ $bike->bikeType }} </td>
+              </tr>
+              <tr>
+               <td>Bike Pedal ID</td>
+               <td> {{ $user->bikePedalID }} </td>
+              </tr>
+              <tr>
+               <td>Second Bike Pedal ID</td>
+               <td> {{ $user->bikePedalID_2 }} </td>
               </tr>
               <tr>
                <td>Register Date </td>
@@ -98,7 +107,7 @@
       function locateBike() {
         var uluru = {lat: {{ $bikeLocation->lat }}, lng: {{ $bikeLocation->long }} };
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 12,
+          zoom: 16,
           center: uluru
         });
         var marker = new google.maps.Marker({
