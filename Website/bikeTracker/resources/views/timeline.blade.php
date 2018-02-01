@@ -32,6 +32,7 @@
           <div class="Form-group">
            <div class="col-sm-7">
             <p> {{ Form::date('date', date('Y-m-d'), array('class' => 'form-control' )) }} </p>
+            <p> Snap To Road {{ Form::checkbox('snapToRoad', '1', false, array('class' => 'name')) }} </p>
             <p> {{ Form::submit('View Timeline', array('class'=>'btn btn-large btn-primary btn-block'))}} </p>
           	{{ Form::close() }}
           </div>
@@ -68,11 +69,14 @@
  }
 @else
       function initMap() {
-        var uluru = {lat: {{ $bikeLocation->first()->lat }} , lng: {{$bikeLocation->first()->long }} }; // Ireland Coords
+        var uluru = {lat: {{ $bikeLocation->first()->lat }} , lng: {{$bikeLocation->first()->long }} };
         var map = new google.maps.Map(document.getElementById('map'), {
+          maxZoom: 18,
           zoom: 12,
           center: uluru
         });
+
+        bounds  = new google.maps.LatLngBounds(); // sets auto zoom bounds
 
        // Define a symbol using SVG path notation, with an opacity of 1.
        var lineSymbol = {
@@ -84,7 +88,7 @@
 
        // Start Marker
        var marker = new google.maps.Marker({
-         position: {lat: {{ $bikeLocation->first()->lat }} , lng: {{$bikeLocation->first()->long }} },
+         position: {lat: {{ $bikeLocation->last()->lat }} , lng: {{$bikeLocation->last()->long }} },
          icon: {
            path: google.maps.SymbolPath.CIRCLE,
            scale: 3,
@@ -96,7 +100,7 @@
 
        // Finish Marker
        var marker = new google.maps.Marker({
-         position: {lat: {{ $bikeLocation->last()->lat }} , lng: {{$bikeLocation->last()->long }} },
+         position: {lat: {{ $bikeLocation->first()->lat }} , lng: {{$bikeLocation->first()->long }} },
          icon: {
            path: google.maps.SymbolPath.CIRCLE,
            scale: 3,
@@ -126,9 +130,13 @@
          map: map
        });
 
+      @foreach ($bikeLocation as $bikeLocationTemp)
+         loc = new google.maps.LatLng({{ $bikeLocationTemp->lat }}, {{ $bikeLocationTemp->long }});
+         bounds.extend(loc);
+      @endforeach
 
-
-
+       map.fitBounds(bounds);       // auto-zoom
+       map.panToBounds(bounds);     // auto-center
       }
     @endif
     </script>

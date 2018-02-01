@@ -76,7 +76,9 @@ class Bike extends Controller
         } elseif (sizeof($bikeLocation) > 1) { // Some Functions to make the data nicer
             $bikeLocation->distance = $this->calculateDistCycled($bikeLocation);
             $bikeLocation->avgSpeed = $this->calculateAvgSpeed($bikeLocation);
-            $bikeLocation = $this->snapToRoad($bikeLocation);
+            if (Input::has('snapToRoad')) {
+                $bikeLocation = $this->snapToRoad($bikeLocation);
+            }
         }
         //Send variables to the view
         return View::make('timeline', ['bike' => $bike], ['bikeLocation' => $bikeLocation]);
