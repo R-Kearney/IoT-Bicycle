@@ -12,7 +12,7 @@ WAKE_REASON_TIMER = 4
 WAKE_REASON_INT_PIN = 8
 
 class Pycoproc:
-    """ class for handling interraction with PIC MCU """
+    """ class for handling the interaction with PIC MCU """
 
     I2C_SLAVE_ADDR = const(8)
 
@@ -232,14 +232,21 @@ class Pycoproc:
         self._write(bytes([CMD_CALIBRATE]), wait=False)
         self.i2c.deinit()
         Pin('P21', mode=Pin.IN)
-        pulses = pycom.pulses_get('P21', 50)
+        pulses = pycom.pulses_get('P21', 100)
         self.i2c.init(mode=I2C.MASTER, pins=(self.sda, self.scl))
+        idx = 0
+        for i in range(len(pulses)):
+            if pulses[i][1] > EXP_RTC_PERIOD:
+                idx = i
+                break
         try:
-            period = pulses[2][1] - pulses[0][1]
+            period = pulses[idx][1] - pulses[(idx - 1)][1]
         except:
-            pass
+            period = 0
         if period > 0:
             self.clk_cal_factor = (EXP_RTC_PERIOD / period) * (1000 / 1024)
+        if self.clk_cal_factor > 1.25 or self.clk_cal_factor < 0.75:
+            self.clk_cal_factor = 1
 
     def button_pressed(self):
         button = self.peek_memory(PORTA_ADDR) & (1 << 3)

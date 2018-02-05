@@ -17,7 +17,7 @@ import gc
 from machine import RTC
 
 pycom.heartbeat(False)
-wdt = WDT(timeout=60000)  # enable Watchdog with a timeout of 1 minute
+wdt = WDT(timeout=120000)  # enable Watchdog with a timeout of 2 minutes
 
 py = Pytrack()
 # enable wakeup source from INT pin
@@ -25,6 +25,7 @@ py.setup_int_pin_wake_up(False)
 py.setup_int_wake_up(True, True)
 acc = LIS2HH12()
 acc.enable_activity_interrupt(100, 20) # Very sensitive
+maxSleep = 86400 # Max time the device is allowed to sleep for (seconds). 24 hours
 
 sigfox = Sigfox(mode=Sigfox.SIGFOX, rcz=Sigfox.RCZ1) # init Sigfox for RCZ1 (Europe)
 s = socket.socket(socket.AF_SIGFOX, socket.SOCK_RAW) # create a Sigfox socket
@@ -40,18 +41,14 @@ noLock = 0
 lock = False
 pycom.rgbled(0xFF0000) # red
 print("Activity")
-# display the reset reason code and the sleep remaining in seconds
-# possible values of wakeup reason are:
-# WAKE_REASON_ACCELEROMETER = 1
-# WAKE_REASON_PUSH_BUTTON = 2
-# WAKE_REASON_TIMER = 4
-# WAKE_REASON_INT_PIN = 8
-print("Wakeup reason: " + str(py.get_wake_reason()) + "; Aproximate sleep remaining: " + str(py.get_sleep_remaining()) + " sec")
+asleepTime = maxSleep - py.get_sleep_remaining() # seconds, not accurate
 
+print("We were asleep for ", asleepTime , " Seconds.")
+if (asleepTime < 200): # limit the max frequency of location pulls
+    time.sleep(60)
 
-while (lock == False) and (noLock < 10): # Try get GPS 3 Times before giving up and going to Sleep
+while (lock == False) and (noLock < 3): # Try get GPS 3 Times before giving up and going to Sleep
     coord = l76.coordinates(debug = False)
-    #f.write("{} - {}\n".format(coord, rtc.now()))
     print("{} - {} KB".format(coord, gc.mem_free()/1000))
     if not all(coord): # returns false if none is in the truple
         print("No lock found")
@@ -76,7 +73,7 @@ while (lock == False) and (noLock < 10): # Try get GPS 3 Times before giving up 
         time.sleep(5) # let everything go through
 
 # go to sleep for 24 hours maximum if no accelerometer interrupt happens
-print("Wakeup reason: " + str(py.get_wake_reason()) + "; Aproximate sleep remaining: " + str(py.get_sleep_remaining()) + " sec")
-print("Going to sleep")
-py.setup_sleep(86400)
+print("Last Sleep length: ", asleepTime, "seconds")
+print("Going to sleep...")
+py.setup_sleep(maxSleep)
 py.go_to_sleep()
