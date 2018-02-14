@@ -28,7 +28,12 @@
           {{ Form::open(array('url' => 'dynamics' , 'class' => 'form-horizontal', 'method' => 'get')) }}
           <div class="Form-group">
            <div class="col-sm-7">
-            <p> {{ Form::date('date', date('Y-m-d'), array('class' => 'form-control' )) }} </p>
+             <div class="input-group date" data-provide="datepicker">
+                <input type="date" name="date" class="form-control">
+                <div class="input-group-addon">
+                    <span class="glyphicon glyphicon-th"><i class="glyphicon glyphicon-th"></i></span>
+                </div>
+            </div>
             <p> {{ Form::select('Pedal', ['1' => 'Pedal 1', '2' => 'Pedal 2'], '1') }} </p>
             <p> {{ Form::submit('View Cycling Dynamics', array('class'=>'btn btn-large btn-primary btn-block'))}} </p>
           	{{ Form::close() }}
@@ -74,12 +79,28 @@
 
 
 <script>
-@if ($bikeDynamics->isData == False)
- //No Data Found
+function datePicker( jQuery ) {
+  $(function () {
+   var activeDays = ['<?php echo implode("', '", $bikeDynamics->activeDays) ?>']
 
-@else
+    $('.input-group.date').datepicker({
+    format: "yyyy-mm-dd",
+    todayBtn: "linked",
+    autoclose: true,
 
-@endif
+    beforeShowDay: function (date) {
+      var allDates = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+      if(activeDays.indexOf(allDates) != -1)
+      return {
+            classes: 'active'
+          };
+      else
+       return true;
+    }
+   });
+
+  });
+}
 </script>
 
 @endsection

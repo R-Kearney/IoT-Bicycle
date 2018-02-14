@@ -2,7 +2,6 @@
 
 @section('content')
 
-
 <header class="masthead">
  <div class="container h-100">
    <div class="row h-100">
@@ -31,7 +30,14 @@
           {{ Form::open(array('url' => 'timeline' , 'class' => 'form-horizontal', 'method' => 'get')) }}
           <div class="Form-group">
            <div class="col-sm-7">
-            <p> {{ Form::date('date', date('Y-m-d'), array('class' => 'form-control' )) }} </p>
+            <div class="input-group date" data-provide="datepicker">
+               <input type="date" name="date" class="form-control">
+               <div class="input-group-addon">
+                   <span class="glyphicon glyphicon-th"><i class="glyphicon glyphicon-th"></i></span>
+               </div>
+           </div>
+
+
             <p> Snap To Road {{ Form::checkbox('snapToRoad', '1', false, array('class' => 'name')) }} </p>
             <p> {{ Form::submit('View Timeline', array('class'=>'btn btn-large btn-primary btn-block'))}} </p>
           	{{ Form::close() }}
@@ -56,8 +62,33 @@
  </div>
 </header>
 
+<script>
+function datePicker( jQuery ) {
+  $(function () {
+   var activeDays = ['<?php echo implode("', '", $bikeLocation->activeDays) ?>']
+
+    $('.input-group.date').datepicker({
+    format: "yyyy-mm-dd",
+    todayBtn: "linked",
+    autoclose: true,
+
+    beforeShowDay: function (date) {
+      var allDates = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+      if(activeDays.indexOf(allDates) != -1)
+      return {
+            classes: 'active'
+          };
+      else
+       return true;
+    }
+   });
+
+  });
+}
+</script>
 
 <script>
+
 @if ($bikeLocation->isData == False)
  //No Data Found
  function initMap() {

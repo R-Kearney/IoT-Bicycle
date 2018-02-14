@@ -25,6 +25,8 @@
     <link href="{{ asset('css/device-mockups.min.css') }}" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="{{ asset('css/new-age.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap-datepicker.css') }}" rel="stylesheet">
+
 
 </head>
 <body id="page-top">
@@ -89,7 +91,11 @@
       </div>
     </footer>
 
+
     <!-- Scripts -->
+    <!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+
     <!-- <script src="{{ asset('js/app.js') }}"></script> -->
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo(env("GOOGLE_MAPS_KEY")); ?>&callback=initMap">  </script>
     <!-- Bootstrap core JavaScript -->
@@ -100,7 +106,13 @@
     <script src="{{ asset('js/jquery.easing.min.js') }}"></script>
     <script src="{{ asset('js/new-age.min.js') }}"></script>
     <script src="{{ asset('js/datetimepicker.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-datepicker.js') }}"></script>
+
     <script src="{{ asset('js/Chart.js') }}"></script>
+
+    <script>
+    $( document ).ready( datePicker );
+    </script>
 
 </body>
 </html>

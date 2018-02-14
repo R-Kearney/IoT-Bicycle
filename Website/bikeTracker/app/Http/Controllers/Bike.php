@@ -13,6 +13,7 @@ use Geotools;
 use Redirect;
 use Validator;
 use Session;
+use DateTime;
 
 // use Client;
 
@@ -30,7 +31,7 @@ class Bike extends Controller
         $userBikeTrackerID = Auth::user()->bikeTrackerID;
         $bike = DB::table('bikes')->where('bikeTrackerID', '=', $userBikeTrackerID)->first();
         $bikeLocation = DB::table('gpslocations')->where('bikeTrackerID', '=', $userBikeTrackerID)->orderBy('updated_at', 'desc')->first();
-        $user = DB::table('users')->where('bikeTrackerID', '=', $userBikeTrackerID)->first();
+        $user = DB::table('users')->where('bikeTrackerID', '=', $userBikeTrackerID)->select('bikePedalID', 'bikePedalID_2')->first();
         if ($bikeLocation == null) { // GPS not synced for this bike
             $bikeLocation = new stdClass();
             $bikeLocation->lat = " ";
@@ -60,6 +61,8 @@ class Bike extends Controller
         $bikeOwner = Auth::user();
         $userBikeTrackerID = Auth::user()->bikeTrackerID;
         $bike = DB::table('bikes')->where('bikeTrackerID', '=', $userBikeTrackerID)->first();
+        $activeDays = DB::table('gpslocations')->where('bikeTrackerID', '=', $userBikeTrackerID)->select('updated_at')->get();
+        $activeDaysArray = $this->findActiveDays($activeDays);
         $bikeLocation = DB::table('gpslocations')->where('bikeTrackerID', '=', $userBikeTrackerID)
          ->whereDate('updated_at', '=', $selectedDate)->orderBy('updated_at', 'desc')->get();
         $bikeLocation->distance = 0; // Distance in km for selected date
@@ -80,6 +83,7 @@ class Bike extends Controller
                 $bikeLocation = $this->snapToRoad($bikeLocation);
             }
         }
+        $bikeLocation->activeDays = $activeDaysArray;
         //Send variables to the view
         return View::make('timeline', ['bike' => $bike], ['bikeLocation' => $bikeLocation]);
     }
@@ -108,6 +112,7 @@ class Bike extends Controller
 
     /**
     * Calculate Avgerage Speed over the time period
+    * @TODO dont calculate if time gap is >20min?
     * returns km/h
     */
     public function calculateAvgSpeed($bikeLocation)
@@ -120,8 +125,10 @@ class Bike extends Controller
             $location = Geotools::coordinate([$bikeLocationTemp->lat, $bikeLocationTemp->long]);
             $time = strtotime($bikeLocationTemp->updated_at);
             if ($i != 0) {
-                $distanceCycled = $distanceCycled + Geotools::distance()->setFrom($location)->setTo($lastLocation)->in('km')->haversine();
-                $timeDiff = $timeDiff + (($lastTime - $time) / 60); // Time difference in minutes
+                if (($lastTime - $time)/60 < 10) { // only count if time between updates was lessthan 10min
+                    $distanceCycled = $distanceCycled + Geotools::distance()->setFrom($location)->setTo($lastLocation)->in('km')->haversine();
+                    $timeDiff = $timeDiff + (($lastTime - $time) / 60); // Time difference in minutes
+                }
             }
             $lastLocation = Geotools::coordinate([$bikeLocationTemp->lat, $bikeLocationTemp->long]);
             $lastTime = strtotime($bikeLocationTemp->updated_at);
@@ -130,6 +137,18 @@ class Bike extends Controller
         $avgSpeed = ($distanceCycled / $timeDiff) * 60; // avg speed in hours
         $avgSpeed = number_format($avgSpeed, 2);
         return $avgSpeed;
+    }
+
+    public function findActiveDays($activeDays)
+    {
+        $dates = array();
+        foreach ($activeDays as $activeDay) {
+            $activeDay = new DateTime($activeDay->updated_at);
+            $activeDay = $activeDay->format("Y-n-j");
+            array_push($dates, $activeDay);
+        }
+        //print_r(array_unique($dates));
+        return array_unique($dates);
     }
 
 
@@ -268,11 +287,13 @@ class Bike extends Controller
         $userBikeTrackerID = Auth::user()->bikeTrackerID;
         $bike = DB::table('bikes')->where('bikeTrackerID', '=', $userBikeTrackerID)->first();
         // set which pedal was selected
-        if (Input::get('Pedal') == 1) {
-            $userPedalID = DB::table('users')->where('bikeTrackerID', '=', $userBikeTrackerID)->first()->bikePedalID;
-        } else {
+        if (Input::get('Pedal') == 2) {
             $userPedalID = DB::table('users')->where('bikeTrackerID', '=', $userBikeTrackerID)->first()->bikePedalID_2;
+        } else { // Pedal 1 is default
+            $userPedalID = DB::table('users')->where('bikeTrackerID', '=', $userBikeTrackerID)->first()->bikePedalID;
         }
+        $activeDays = DB::table('pedaldata')->where('bikePedalID', '=', $userPedalID)->select('updated_at')->get();
+        $activeDaysArray = $this->findActiveDays($activeDays);
         // pull data from the DB
         $bikeDynamics = DB::table('pedaldata')->where('bikePedalID', '=', $userPedalID)
         ->whereDate('updated_at', '=', $selectedDate)->orderBy('updated_at', 'desc')->get();
@@ -296,6 +317,7 @@ class Bike extends Controller
             $bikeDynamics->calculatedEfficency = $this->pedalEfficiency($bikeDynamics);
             $bikeDynamics->calculatedNewtons =  $bikeDynamics->pedalPower[2]; // Watts be better but wouldn't be accurate.
         }
+        $bikeDynamics->activeDays = $activeDaysArray;
 
         // Generate the charts
         // Pedal power left

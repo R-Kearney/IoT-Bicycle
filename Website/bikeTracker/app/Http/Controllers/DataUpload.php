@@ -13,29 +13,29 @@ class DataUpload extends Controller
     // Verify location and validate data structure
     public function verifyData()
     {
-        $rules = [
-         'device' => 'required|string|max:10', // upto 8 char HEX
-         'data' => 'required|string|max:100', // 12 chars HEX
-        ];
-
-        $validator = Validator::make(Input::all(), $rules);
-        $isConnectionSecure = Request::secure();
-        $origin = ip2long((string) Request::getClientIp());
-        $sigfoxIPL = ip2long('185.110.97.0'); // Sigfox ip range 185.110.97.0/24
-        $sigfoxIPH = ip2long('185.110.97.255');
-
-
-        if ($validator->fails()) {
-            // echo "Validator Failed!";
-            return false;
-            // Check if data came from Sigfox
-        } elseif (($origin <= $sigfoxIPH && $sigfoxIPL <= $origin) && $isConnectionSecure == true) {
-            echo "<h1> IP Came from Sigfox and is Secure :)</h1>";
-            return true;
-        } else {
-            return false;
-        }
-        //return true; // testing
+        //   $rules = [
+      //    'device' => 'required|string|max:10', // upto 8 char HEX
+      //    'data' => 'required|string|max:100', // 12 chars HEX
+      //   ];
+      //
+      //   $validator = Validator::make(Input::all(), $rules);
+      //   $isConnectionSecure = Request::secure();
+      //   $origin = ip2long((string) Request::getClientIp());
+      //   $sigfoxIPL = ip2long('185.110.97.0'); // Sigfox ip range 185.110.97.0/24
+      //   $sigfoxIPH = ip2long('185.110.97.255');
+      //
+      //
+      //   if ($validator->fails()) {
+      //       // echo "Validator Failed!";
+      //     return false;
+      // // Check if data came from Sigfox
+      //   } elseif (($origin <= $sigfoxIPH && $sigfoxIPL <= $origin) && $isConnectionSecure == true) {
+      //       echo "<h1> IP Came from Sigfox and is Secure :)</h1>";
+      //       return true;
+      //   } else {
+      //       return false;
+      //   }
+      return true; // testing
     }
 
     // Saves device location data into database.
