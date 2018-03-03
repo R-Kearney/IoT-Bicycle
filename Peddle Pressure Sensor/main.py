@@ -7,7 +7,7 @@ import utime
 from machine import Timer
 from machine import WDT # Watchdog to auto restart if system crashes
 import socket
-import gc
+import gc # garbage collector
 from machine import RTC
 from machine import I2C
 
@@ -30,7 +30,7 @@ class PedalSensor:
     readingCount = 0
     accumulatedData = 0
 
-    # sensor location would be 'topLeftSensor'
+    # sensor location would be 'tLS' which is topLeftSensor
     # address is the i2c address - 0x04
     def __init__(self, location, address):
       self.location = location
@@ -83,7 +83,6 @@ class PedalSensor:
             sensorValue = i2c.readfrom(self.address, 6)
         except OSError:
             print("Error reading data, check connections. Sensor Location - ", self.location, " Sensor address - ", hex(self.address))
-            #return 0
         sensorValue = int.from_bytes(sensorValue[4:], 'big')
         # sensor range 256 - 767 and 0 - 100 Newtons
         sensorValue = self.map(sensorValue, 256, 767, 0, 100)
