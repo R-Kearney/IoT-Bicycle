@@ -79,7 +79,7 @@ class Bike extends Controller
         } elseif (sizeof($bikeLocation) > 1) { // Some Functions to make the data nicer
             $bikeLocation->distance = $this->calculateDistCycled($bikeLocation);
             $bikeLocation->avgSpeed = $this->calculateAvgSpeed($bikeLocation);
-            if (Input::has('snapToRoad')) {
+            if (Input::has('snapToRoad') & sizeof($bikeLocation) >= 5) {
                 $bikeLocation = $this->snapToRoad($bikeLocation);
             }
         }
@@ -112,7 +112,7 @@ class Bike extends Controller
 
     /**
     * Calculate Avgerage Speed over the time period
-    * @TODO dont calculate if time gap is >20min?
+    *
     * returns km/h
     */
     public function calculateAvgSpeed($bikeLocation)
@@ -456,8 +456,8 @@ class Bike extends Controller
     /**
     *
     * reads power for selected pedal and day.
-    * calculates cycling Efficency based on how closely related the power is per location
-    * 100% efficency is all sensors reading the same data EG: force is applied directly to the center of the pedal.
+    * calculates cycling efficiency based on how closely related the power is per location
+    * 100% efficiency  is all sensors reading the same data EG: force is applied directly to the center of the pedal.
     * returns a percentage
     */
     public function pedalEfficiency($bikeDynamics)
