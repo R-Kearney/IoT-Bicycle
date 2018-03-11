@@ -26,8 +26,9 @@ The Web App will allow the end user to view past trips on a map and see trip inf
 ## Cycling Dynamics
 A smart pedal will use 4 capacitive force sensors to record the users peddling power. The capacitive force sensors are made by singletact and communicate to a second Pycom SiPy board over i2c. The board reads and maps the force before sending to the web app for processing. The web app displays the users cycling dynamics and peddling efficiency.
 
-![Web App Example Cycling Dynamics](https://github.com/R-Kearney/IoT-Bike/blob/master/Website/Eg_Cycling_Dynamics.jpg)
-![Smart Pedal](https://github.com/R-Kearney/IoT-Bike/blob/master/Smart_Pedal.jpg)
+<img src="https://github.com/R-Kearney/IoT-Bike/blob/master/Website/Eg_Cycling_Dynamics.jpg" alt="Web App Example Cycling Dynamics"     width="30%">
+<img src="https://github.com/R-Kearney/IoT-Bike/blob/master/Smart_Pedal.jpg" alt="Smart Pedal" width="60%">
+
 
 ### Possible future features
 1. Better power management by utilizing WiFi or cellular location instead of relying on high power consumption GPS.
