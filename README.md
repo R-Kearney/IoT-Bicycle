@@ -9,6 +9,7 @@ To ensure the success of this project I will be focusing on two modules.
 The sensor modules are fully modular and rely on the very powerful Sigfox network for low power communications to my backend. The sensors themselves are based on the Pycom SiPy boards (pycom.io) which gives you access to Wi-Fi, BLE and Sigfox on a single low power board. The boards are based on the ESP32 and are programmed in micro Python to allow for quick prototyping. 
 
 <img src="https://github.com/R-Kearney/IoT-Bike/blob/master/Poster.JPG" alt="Poster" width="60%">
+
 ![Web App Example Timeline](https://github.com/R-Kearney/IoT-Bike/blob/master/Website/Eg_Timeline.jpg)
 
 
